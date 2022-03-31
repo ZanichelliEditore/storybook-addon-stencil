@@ -8,7 +8,7 @@ import { getOptions } from 'loader-utils';
  */
 async function stencilCssLoader(source: string) {
   if (!this._module.resource.match(/\.css\?tag=/)) {
-    return;
+    return source;
   }
 
   const options: Partial<TranspileOptions> = getOptions(this) || {};
@@ -25,7 +25,7 @@ async function stencilCssLoader(source: string) {
 }
 
 /**
- * Pith webpack loaders queue.
+ * Pitch webpack loaders queue.
  * @param remainingRequest The remeaining request.
  * @param precedingRequest The preceding request.
  * @param data Data passed to the loader.

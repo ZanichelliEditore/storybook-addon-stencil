@@ -1,4 +1,4 @@
-import type { JSDoc } from 'typescript';
+import type { CallExpression, ObjectLiteralExpression, PropertyAssignment, StringLiteral, JSDoc } from 'typescript';
 import type { Package, CustomElementDeclaration } from 'custom-elements-manifest/schema';
 import type { TranspileOptions } from '@stencil/core/compiler';
 import * as ts from 'typescript';
@@ -64,12 +64,66 @@ function generateCustomElementsManifest(classDeclaration: any, fileName: string)
 }
 
 /**
+ * Generate a map between components tag name and their path.
+ * @returns {Object} An object containing the `program` instance (for future reuse) and the `componentMap`.
+ */
+export function getComponentMap() {
+  const configFileName = ts.findConfigFile('./', ts.sys.fileExists, 'tsconfig.json');
+  const { config } = ts.readConfigFile(configFileName, ts.sys.readFile);
+  const { fileNames, options: compilerOptions } = ts.parseJsonConfigFileContent(config, ts.sys, './');
+  const program = ts.createProgram(fileNames, {
+    ...compilerOptions,
+    noEmit: true,
+  });
+
+  program.emit();
+
+  const componentMap = new Map<string, string>();
+
+  function visit(node: ts.Node) {
+    if (ts.isClassDeclaration(node)) {
+      /**
+       * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
+       * Add custom-element-definition to exports
+       */
+      const componentDecorator = node?.decorators?.find((decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === 'Component')?.expression as CallExpression;
+      if (!componentDecorator) {
+        return;
+      }
+
+      const tagProperty = (componentDecorator.arguments?.[0] as ObjectLiteralExpression)?.properties?.find((prop) => prop?.name?.getText() === 'tag') as PropertyAssignment;
+      if (!tagProperty) {
+        return;
+      }
+
+      const tagName = (tagProperty?.initializer as StringLiteral)?.text;
+      if (tagName) {
+        componentMap.set(tagName, node.getSourceFile().fileName);
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+
+  // Visit every sourceFile in the program
+  for (const sourceFile of program.getSourceFiles()) {
+    if (!sourceFile.isDeclarationFile) {
+      // Walk the tree to search for classes
+      visit(sourceFile);
+    }
+  }
+
+  return { program, componentMap };
+}
+
+/**
  * Convert a Stencil component to JS module.
  * @param source The component source code.
  */
 async function stencilLoader(source: string) {
-  const options: Partial<TranspileOptions> = getOptions(this) || {};
   const callback = this.async();
+  const { program, componentMap } = await getComponentMap();
+
+  const options: Partial<TranspileOptions> = getOptions(this) || {};
   const fileName = this._module.resource.split('?')[0];
 
   const { code, data } = await transpile(source, {
@@ -85,8 +139,7 @@ async function stencilLoader(source: string) {
   }
 
   const declaration = data[0];
-  const { componentClassName } = declaration;
-  const program = ts.createProgram([fileName], { allowJs: true });
+  const { componentClassName, htmlTagNames } = declaration;
   const sourceFile = program.getSourceFile(fileName);
   const lineParseRegex = /^([^\s]*)([\s-]+)(.*?)$/g;
 
@@ -138,7 +191,8 @@ async function stencilLoader(source: string) {
     }
   });
 
-  callback(null, `import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
+  callback(null, `${htmlTagNames.filter((tagName: string) => componentMap.has(tagName)).map((tagName: string) => `import '${componentMap.get(tagName)}';`).join('\n')}
+import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 ${code}
 
 const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, fileName))};

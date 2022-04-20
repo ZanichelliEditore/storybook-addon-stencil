@@ -2,6 +2,19 @@
 
 #### ⚠️ Pushed to `main`
 
+- chore: add cssParts to declarations ([@DarioSacco](https://github.com/DarioSacco))
+- feat: add imports for component dependencies ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
+# v0.1.3 (Wed Apr 20 2022)
+
+#### ⚠️ Pushed to `main`
+
 - feat: add imports for component dependencies ([@DarioSacco](https://github.com/DarioSacco))
 
 #### Authors: 1

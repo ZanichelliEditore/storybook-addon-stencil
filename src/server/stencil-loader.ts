@@ -32,6 +32,7 @@ function generateCustomElementsManifest(classDeclaration: any, fileName: string)
       description: event.docs?.text,
     })),
     cssProperties: classDeclaration.cssProperties,
+    cssParts: classDeclaration.cssParts,
     slots: classDeclaration.slots,
   } as CustomElementDeclaration;
 

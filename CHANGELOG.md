@@ -1,3 +1,15 @@
+# v0.1.6 (Tue May 03 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: use custom lighter system to transpile stencil components ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.5 (Fri Apr 22 2022)
 
 #### ⚠️ Pushed to `main`

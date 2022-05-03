@@ -12,6 +12,10 @@ export class ProgramService {
         this.program = this.createProgram();
     }
 
+    /**
+     * Load typescript configuration.
+     * @returns {ParsedCommandLine}
+     */
     loadConfig() {
         const configFileName = ts.findConfigFile('./', ts.sys.fileExists, 'tsconfig.json');
         const { config } = ts.readConfigFile(configFileName, ts.sys.readFile);
@@ -19,6 +23,10 @@ export class ProgramService {
         return ts.parseJsonConfigFileContent(config, ts.sys, './');
     }
 
+    /**
+     * Create a program instance from the loaded typescript configuration.
+     * @returns {Program}
+     */
     createProgram() {
         const { fileNames, options: compilerOptions } = this.config;
 
@@ -28,10 +36,19 @@ export class ProgramService {
         });
     }
 
+    /**
+     * Get the source file of a given file path.
+     * @param {string} fileName The file path.
+     * @returns {ts.SourceFile}
+     */
     getSourceFile(fileName: string) {
         return this.program.getSourceFile(fileName);
     }
 
+    /**
+     * Provide the cached map of all Stencil components or create a new one.
+     * @returns Map<string, string>
+     */
     getComponents() {
         if (this.memoBuild) {
             return this.memoBuild;
@@ -40,6 +57,10 @@ export class ProgramService {
         return this.memoBuild = this.createComponentsMap();
     }
 
+    /**
+     * Create a map of all Stencil components using their tag name as key and the file path as value.
+     * @returns {Map<string, string>}
+     */
     private async createComponentsMap() {
         const componentMap = new Map<string, string>();
         const visit = (node: Node) => {
@@ -50,19 +71,15 @@ export class ProgramService {
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
                  * Add custom-element-definition to exports
                  */
-                const componentDecorator = node?.decorators?.find((decorator) =>
-                    (decorator?.expression as CallExpression)?.expression?.getText() ===
-                    'Component'
-                )?.expression as CallExpression;
+                const componentDecorator = node?.decorators
+                    ?.find((decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === 'Component')
+                    ?.expression as CallExpression;
                 if (!componentDecorator) {
                     return;
                 }
 
-                const tagProperty = (
-                    componentDecorator.arguments?.[0] as ObjectLiteralExpression
-                )?.properties?.find(
-                    (prop) => prop?.name?.getText() === 'tag'
-                ) as PropertyAssignment;
+                const tagProperty = (componentDecorator.arguments?.[0] as ObjectLiteralExpression)?.properties
+                    ?.find((prop) => prop?.name?.getText() === 'tag') as PropertyAssignment;
                 if (!tagProperty) {
                     return;
                 }

@@ -18,7 +18,7 @@ export async function webpack(config: Configuration, options: Options): Promise<
           loader: require.resolve('./stencil-css-loader'),
           options: { ...cssLoader },
         },
-        ...config.module.rules,
+        ...(config.module.rules || []),
         {
           test: /\.tsx$/,
           loader: require.resolve('./stencil-loader'),

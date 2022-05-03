@@ -1,12 +1,11 @@
-import type { JSDoc } from 'typescript';
 import type { TranspileOptions } from '@stencil/core/compiler';
-import * as ts from 'typescript';
-import { transpile } from '@stencil/core/compiler';
+import { transpile, createSystem } from '@stencil/core/compiler';
 import { getOptions } from 'loader-utils';
 import { ProgramService } from './ProgramService';
 import { generateCustomElementDeclaration, generateCustomElementsManifest } from './CustomElementsManifest';
 
 const programService = new ProgramService();
+const sys = createSystem();
 
 /**
  * Convert a Stencil component to JS module.
@@ -20,6 +19,7 @@ async function stencilLoader(source: string) {
   const fileName = this._module.resource.split('?')[0];
 
   const { code, data } = await transpile(source, {
+    sys,
     target: 'es2017',
     ...options,
     file: fileName,

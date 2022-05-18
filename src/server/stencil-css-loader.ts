@@ -13,12 +13,11 @@ async function stencilCssLoader(source: string) {
 
   const options: Partial<TranspileOptions> = getOptions(this) || {};
   const callback = this.async();
-  const fileName = this._module.resource.split('?')[0];
   const { code } = await transpile(source, {
     sourceMap: 'inline',
     target: 'es2017',
     ...options,
-    file: fileName,
+    file: this._module.resource,
   });
 
   callback(null, code);

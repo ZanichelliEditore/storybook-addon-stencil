@@ -69,12 +69,19 @@ export function generateCustomElementDeclaration(classDeclaration: any, sourceFi
         if (ts.isClassDeclaration(node) && node.name.text === componentClassName) {
             const jsdoc = (node as any).jsDoc as JSDoc[];
             if (jsdoc) {
+                /**
+                 * Normalize a tag comment trimming it and replacing any new lines with a space.
+                 * @param comment Tag comment.
+                 * @returns normalized comment
+                 */
+                const normalizeComment = (comment: any) => comment.trim().replaceAll('\n', ' ');
+
                 const tags = jsdoc.reduce((tags, comment) => [...tags, ...(comment.tags || [])], []);
                 tags.forEach((tag) => {
                     const tagName = tag.tagName.text;
                     switch (tagName) {
                         case 'slot': {
-                            const match = [...tag.comment.matchAll(lineParseRegex)][0];
+                            const match = [...normalizeComment(tag.comment).matchAll(lineParseRegex)][0];
                             classDeclaration.slots = classDeclaration.slots || [];
                             classDeclaration.slots.push({
                                 name: match?.[1] || '-',
@@ -84,7 +91,7 @@ export function generateCustomElementDeclaration(classDeclaration: any, sourceFi
                         }
                         case 'cssprop':
                         case 'cssproperty': {
-                            const match = [...tag.comment.matchAll(lineParseRegex)][0];
+                            const match = [...normalizeComment(tag.comment).matchAll(lineParseRegex)][0];
                             const propName = match?.[1];
                             if (propName) {
                                 classDeclaration.cssProperties = classDeclaration.cssProperties || [];
@@ -96,7 +103,7 @@ export function generateCustomElementDeclaration(classDeclaration: any, sourceFi
                             break;
                         }
                         case 'csspart': {
-                            const match = [...tag.comment.matchAll(lineParseRegex)][0];
+                            const match = [...normalizeComment(tag.comment).matchAll(lineParseRegex)][0];
                             const partName = match?.[1];
                             if (partName) {
                                 classDeclaration.cssParts = classDeclaration.cssParts || [];

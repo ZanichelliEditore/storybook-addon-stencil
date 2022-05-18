@@ -1,3 +1,15 @@
+# v0.1.7 (Wed May 18 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: pass full file instead of file name when transpiling css; fix jsDoc comment parsing ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.6 (Tue May 03 2022)
 
 #### ⚠️ Pushed to `main`

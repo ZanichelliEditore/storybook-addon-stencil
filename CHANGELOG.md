@@ -1,3 +1,16 @@
+# v0.1.7 (Thu May 19 2022)
+
+#### ⚠️ Pushed to `main`
+
+- refactor: replace `replaceAll` with replace 🤪 (for more nodejs support) ([@DarioSacco](https://github.com/DarioSacco))
+- fix: pass full file instead of file name when transpiling css; fix jsDoc comment parsing ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.7 (Wed May 18 2022)
 
 #### ⚠️ Pushed to `main`

@@ -74,7 +74,7 @@ export function generateCustomElementDeclaration(classDeclaration: any, sourceFi
                  * @param comment Tag comment.
                  * @returns normalized comment
                  */
-                const normalizeComment = (comment: any) => comment.trim().replaceAll('\n', ' ');
+                const normalizeComment = (comment: any) => comment.trim().replace(/\n/g, ' ');
 
                 const tags = jsdoc.reduce((tags, comment) => [...tags, ...(comment.tags || [])], []);
                 tags.forEach((tag) => {

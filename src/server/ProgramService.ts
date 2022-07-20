@@ -1,4 +1,5 @@
 import type { Node, Program, ParsedCommandLine, CallExpression, ObjectLiteralExpression, PropertyAssignment, StringLiteral } from 'typescript';
+import path from 'path';
 import * as ts from 'typescript';
 
 export class ProgramService {
@@ -65,7 +66,10 @@ export class ProgramService {
         const componentMap = new Map<string, string>();
         const visit = (node: Node) => {
             if (ts.isClassDeclaration(node)) {
-                const fileName = node.getSourceFile().fileName;
+                let fileName = node.getSourceFile().fileName;
+                if (!path.isAbsolute(fileName)) {
+                    fileName = path.join(this.program.getCurrentDirectory(), fileName);
+                }
 
                 /**
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator

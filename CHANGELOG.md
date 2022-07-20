@@ -1,3 +1,15 @@
+# v0.1.9 (Wed Jul 20 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: always use absolute paths ([@nicolocarpignoli](https://github.com/nicolocarpignoli))
+
+#### Authors: 1
+
+- Nicolò Carpignoli ([@nicolocarpignoli](https://github.com/nicolocarpignoli))
+
+---
+
 # v0.1.7 (Thu May 19 2022)
 
 #### ⚠️ Pushed to `main`

@@ -75,7 +75,7 @@ export class ProgramService {
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
                  * Add custom-element-definition to exports
                  */
-                const componentDecorator = node?.decorators
+                const componentDecorator = (ts.getDecorators ? ts.getDecorators(node) : node?.decorators)
                     ?.find((decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === 'Component')
                     ?.expression as CallExpression;
                 if (!componentDecorator) {
@@ -83,7 +83,7 @@ export class ProgramService {
                 }
 
                 const tagProperty = (componentDecorator.arguments?.[0] as ObjectLiteralExpression)?.properties
-                    ?.find((prop) => prop?.name?.getText() === 'tag') as PropertyAssignment;
+                    ?.find((prop: PropertyAssignment) => prop?.name?.getText() === 'tag') as PropertyAssignment;
                 if (!tagProperty) {
                     return;
                 }

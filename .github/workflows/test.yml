@@ -1,0 +1,58 @@
+name: Test
+on:
+  push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+
+      - name: Install project dependencies
+        run: yarn install
+
+      - name: Run build script
+        run: yarn build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: StorybookAddonStencil
+          path: dist
+
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    needs: build
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+
+      - name: Install project dependencies
+        run: yarn install
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: StorybookAddonStencil
+          path: dist
+
+      - name: Run tests
+        run: yarn test

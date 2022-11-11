@@ -5,14 +5,15 @@ const compiler = require('./compiler.js');
 
 jest.setTimeout(10000);
 
-test('Inserts name and outputs JavaScript', async () => {
+test('Custom element manifest generation', async () => {
     const stats = await compiler('fixture/component.tsx');
-    const output = stats.toJson({ source: true }).modules[2].source;
+    const output = stats.toJson({ source: true }).modules[2].modules[0].source.replace(/\r\n/g, '\n');
 
     expect(output).toBe(`
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 import { HTMLElement, defineCustomElement as __stencil_defineCustomElement } from "@stencil/core/internal/client";
 import { h } from "@stencil/core/internal/client";
+import myFirstComponentStyle from "./component.css?tag=my-first-component";
 const MyComponent = class extends HTMLElement {
   constructor() {
     super();
@@ -24,6 +25,7 @@ const MyComponent = class extends HTMLElement {
       "My name is ",
       this.name);
   }
+  static get style() { return myFirstComponentStyle; }
 };
 __stencil_defineCustomElement(MyComponent, [0, "my-first-component", {
     "name": [1]

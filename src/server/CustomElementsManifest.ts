@@ -1,6 +1,5 @@
 import type { JSDoc, SourceFile } from 'typescript';
 import type { Package, CustomElementDeclaration } from 'custom-elements-manifest/schema';
-import path from 'path';
 import * as ts from 'typescript';
 
 /**
@@ -46,7 +45,7 @@ export function generateCustomElementsManifest(classDeclaration: any, fileName: 
                     name: classDeclaration.componentClassName,
                     declaration: {
                         name: classDeclaration.componentClassName,
-                        module: path.relative(process.cwd(), fileName),
+                        module: fileName,
                     }
                 },
                 {
@@ -54,7 +53,7 @@ export function generateCustomElementsManifest(classDeclaration: any, fileName: 
                     name: classDeclaration.tagName,
                     declaration: {
                         name: classDeclaration.componentClassName,
-                        module: path.relative(process.cwd(), fileName),
+                        module: fileName,
                     }
                 },
             ],

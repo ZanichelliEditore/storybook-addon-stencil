@@ -18,6 +18,12 @@ module.exports = (fixture) => {
                         loader: path.resolve(__dirname, '../dist/cjs/server/stencil-loader.js'),
                     },
                 },
+                {
+                    test: /\.css$/,
+                    use: {
+                        loader: path.resolve(__dirname, '../dist/cjs/server/stencil-css-loader.js'),
+                    },
+                },
             ],
         },
         externals: {

@@ -1,5 +1,6 @@
 import type { TranspileOptions } from '@stencil/core/compiler';
 import { transpile, createSystem } from '@stencil/core/compiler';
+import path from 'path';
 import { getOptions } from 'loader-utils';
 import { ProgramService } from './ProgramService';
 import { generateCustomElementDeclaration, generateCustomElementsManifest } from './CustomElementsManifest';
@@ -39,7 +40,7 @@ async function stencilLoader(source: string) {
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 ${code}
 
-const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, fileName))};
+const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, path.posix.relative(process.cwd(), fileName)))};
 setCustomElementsManifest({
   ...(getCustomElements() || {}),
   ...customElementsManifest,

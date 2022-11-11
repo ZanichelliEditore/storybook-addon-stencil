@@ -40,7 +40,7 @@ async function stencilLoader(source: string) {
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 ${code}
 
-const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, path.posix.relative(process.cwd(), fileName)))};
+const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, path.relative(process.cwd(), fileName).split(path.sep).join('/')))};
 setCustomElementsManifest({
   ...(getCustomElements() || {}),
   ...customElementsManifest,

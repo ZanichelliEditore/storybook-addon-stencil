@@ -15,10 +15,11 @@ jobs:
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16
+          cache: yarn
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1

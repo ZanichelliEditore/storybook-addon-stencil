@@ -1,3 +1,15 @@
+# v0.1.10 (Tue Nov 15 2022)
+
+#### 🐛 Bug Fix
+
+- fix: files directory path [#1](https://github.com/ZanichelliEditore/storybook-addon-stencil/pull/1) ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.9 (Wed Jul 20 2022)
 
 #### ⚠️ Pushed to `main`

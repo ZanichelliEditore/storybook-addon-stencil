@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-stencil",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A Stencil compiler integration for Storybook.",
   "keywords": [
     "storybook",

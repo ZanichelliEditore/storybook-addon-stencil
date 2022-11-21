@@ -10,6 +10,18 @@
 
 ---
 
+# v0.1.11 (Mon Nov 21 2022)
+
+#### ⚠️ Pushed to `main`
+
+- chore: fix node version on release workflow ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.10 (Tue Nov 15 2022)
 
 #### 🐛 Bug Fix

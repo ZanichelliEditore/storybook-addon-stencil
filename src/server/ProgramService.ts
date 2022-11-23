@@ -64,14 +64,15 @@ export class ProgramService {
      */
     private async createComponentsMap() {
         const componentMap = new Map<string, string>();
-        // fix directory path with correct separator (it needs to be '/' for JS imports)
-        const currentDirectory = this.program.getCurrentDirectory().split(path.sep).join('/');
+        const currentDirectory = this.program.getCurrentDirectory();
         const visit = (node: Node) => {
             if (ts.isClassDeclaration(node)) {
                 let fileName = node.getSourceFile().fileName;
                 if (!path.isAbsolute(fileName)) {
                     fileName = path.join(currentDirectory, fileName);
                 }
+                // fix path with correct separator (it needs to be '/' for JS imports)
+                fileName = fileName.split(path.sep).join('/');
 
                 /**
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator

@@ -36,7 +36,11 @@ async function stencilLoader(source: string) {
   const sourceFile = programService.getSourceFile(fileName);
   const declaration = generateCustomElementDeclaration(data[0], sourceFile);
 
-  callback(null, `${htmlTagNames.filter((tagName: string) => components.has(tagName)).map((tagName: string) => `import '${components.get(tagName)}';`).join('\n')}
+  callback(null, `${
+    htmlTagNames.filter((tagName: string) => components.has(tagName))
+      .map((tagName: string) => `import '${components.get(tagName)}';`)
+      .join('\n')
+  }
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 ${code}
 

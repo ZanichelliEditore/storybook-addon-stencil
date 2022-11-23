@@ -1,3 +1,15 @@
+# v0.1.13 (Wed Nov 23 2022)
+
+#### 🐛 Bug Fix
+
+- fix: path separator in the map of components [#2](https://github.com/ZanichelliEditore/storybook-addon-stencil/pull/2) ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.11 (Mon Nov 21 2022)
 
 #### ⚠️ Pushed to `main`

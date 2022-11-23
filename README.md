@@ -7,7 +7,7 @@ Install and register the addon in your Storybook:
 
 ```
 npm install storybook-addon-stencil -D
-yarn install storybook-addon-stencil -D
+yarn add storybook-addon-stencil -D
 ```
 
 **.storybook/main.js**

@@ -63,7 +63,7 @@ export function generateCustomElementsManifest(classDeclaration: any, fileName: 
 
 export function generateCustomElementDeclaration(classDeclaration: any, sourceFile: SourceFile) {
     const { componentClassName } = classDeclaration;
-    const lineParseRegex = /^([^\s]*)([\s-]+)(.*?)$/g;
+    const lineParseRegex = /^([^\s]*)([\s-]*)(.*?)$/g;
 
     ts.forEachChild(sourceFile, (node) => {
         if (ts.isClassDeclaration(node) && node.name.text === componentClassName) {

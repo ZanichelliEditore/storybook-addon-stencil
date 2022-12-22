@@ -1,3 +1,15 @@
+# v0.1.14 (Thu Dec 22 2022)
+
+#### ⚠️ Pushed to `main`
+
+- fix: line parser regex ([@DarioSacco](https://github.com/DarioSacco))
+
+#### Authors: 1
+
+- Dario Sacco ([@DarioSacco](https://github.com/DarioSacco))
+
+---
+
 # v0.1.13 (Wed Nov 23 2022)
 
 #### 🐛 Bug Fix

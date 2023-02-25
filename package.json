@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
     "@babel/preset-typescript": "^7.13.0",
-    "@stencil/core": "^2.15.0",
+    "@stencil/core": "^3.0.0",
     "@storybook/addon-essentials": "^6.4.0",
     "@storybook/react": "^6.4.0",
     "auto": "^10.3.0",
@@ -64,7 +64,7 @@
     "zx": "^1.14.1"
   },
   "peerDependencies": {
-    "@stencil/core": "^2.15.0",
+    "@stencil/core": "^2.15.0 || ^3.0.0",
     "@storybook/addons": "^6.4.0",
     "@storybook/api": "^6.4.0",
     "@storybook/components": "^6.4.0",

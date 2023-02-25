@@ -1,16 +1,17 @@
 # Storybook Addon Stencil
-A Stencil compiler integration for Storybook.
+
+A Stencil compiler integration for Storybook. Allows to use stencil .tsx components in storybook stories directly, with HMR and source maps (Only webpack 4 supported) and without the extra step of pre-bundling stencil.
 
 ## Usage
 
-Install and register the addon in your Storybook:
+1. Install and register the addon in your Storybook:
 
 ```
 npm install storybook-addon-stencil -D
 yarn install storybook-addon-stencil -D
 ```
 
-**.storybook/main.js**
+2. Add the addon to your **.storybook/main.js** file, in order to configure the compiler (only @storybook/web-components framework supported):
 
 ```js
 module.exports = {
@@ -24,6 +25,28 @@ module.exports = {
   ],
   "framework": "@storybook/web-components"
 }
+```
+
+3. Write any story importing the stencil component and using it as string, example **Component.stories.js**:
+
+```js
+import './my-component'; // Import the stenciljs component file (.tsx)
+
+export default {
+  title: 'Example/Component',
+};
+
+// Use the stencil component
+const Template = ({first, middle, last}) => `<my-component first="${first}" middle="${middle}" last="${last}"></my-component>`;
+
+export const MyComponent = Template.bind({});
+
+MyComponent.args = {
+  first: 'first',
+  middle: 'middle',
+  last: 'last'
+};
+
 ```
 
 ## Development

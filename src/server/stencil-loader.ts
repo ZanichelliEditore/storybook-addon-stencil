@@ -12,14 +12,14 @@ const sys = createSystem();
  * Convert a Stencil component to JS module.
  * @param source The component source code.
  */
-async function stencilLoader(source: string) {
+async function stencilLoader(source: string, sourceMap: string) {
   const callback = this.async();
   const components = await programService.getComponents();
 
   const options: Partial<TranspileOptions> = getOptions(this) || {};
   const fileName = this._module.resource.split('?')[0];
 
-  const { code, data } = await transpile(source, {
+  const { code, data, map } = await transpile(source, {
     sys,
     target: 'es2017',
     ...options,
@@ -28,34 +28,35 @@ async function stencilLoader(source: string) {
 
   if (!data.length) {
     // the source file does not register any Stencil component
-    callback(null, source);
+    callback(null, source, sourceMap);
     return;
   }
 
   const { componentClassName, htmlTagNames } = data[0];
   const sourceFile = programService.getSourceFile(fileName);
   const declaration = generateCustomElementDeclaration(data[0], sourceFile);
+  const transformedSource = `${htmlTagNames
+        .filter((tagName: string) => components.has(tagName))
+        .map((tagName: string) => `import '${components.get(tagName)}';`)
+      }${code.replace(/\/\/# sourceMappingURL.*\.map/, '\n')}  
+    import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 
-  callback(null, `${
-    htmlTagNames.filter((tagName: string) => components.has(tagName))
-      .map((tagName: string) => `import '${components.get(tagName)}';`)
-      .join('\n')
-  }
-import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
-${code}
+    const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, path.relative(process.cwd(), fileName).split(path.sep).join('/')))};
+    setCustomElementsManifest({
+      ...(getCustomElements() || {}),
+      ...customElementsManifest,
+      modules: [
+        ...((getCustomElements() || {}).modules || []),
+        ...customElementsManifest.modules,
+      ],
+    });
 
-const customElementsManifest = ${JSON.stringify(generateCustomElementsManifest(declaration, path.relative(process.cwd(), fileName).split(path.sep).join('/')))};
-setCustomElementsManifest({
-  ...(getCustomElements() || {}),
-  ...customElementsManifest,
-  modules: [
-    ...((getCustomElements() || {}).modules || []),
-    ...customElementsManifest.modules,
-  ],
-});
-
-export { ${componentClassName} };
-`);
+    export { ${componentClassName} };
+  `;
+  const jsonMap = JSON.parse(map);
+  jsonMap.sources = [fileName];
+  jsonMap.sourcesContent = [source];
+  callback(null, transformedSource, jsonMap);
 }
 
 module.exports = stencilLoader;

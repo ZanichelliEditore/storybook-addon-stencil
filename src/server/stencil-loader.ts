@@ -1,7 +1,6 @@
 import type { TranspileOptions } from '@stencil/core/compiler';
 import { transpile, createSystem } from '@stencil/core/compiler';
 import path from 'path';
-import { getOptions } from 'loader-utils';
 import { ProgramService } from './ProgramService';
 import { generateCustomElementDeclaration, generateCustomElementsManifest } from './CustomElementsManifest';
 
@@ -16,7 +15,7 @@ async function stencilLoader(source: string) {
   const callback = this.async();
   const components = await programService.getComponents();
 
-  const options: Partial<TranspileOptions> = getOptions(this) || {};
+  const options: Partial<TranspileOptions> = this.getOptions() || {};
   const fileName = this._module.resource.split('?')[0];
 
   const { code, data } = await transpile(source, {

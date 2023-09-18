@@ -78,7 +78,7 @@ export class ProgramService {
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
                  * Add custom-element-definition to exports
                  */
-                const componentDecorator = (ts.getDecorators ? ts.getDecorators(node) : node?.decorators)
+                const componentDecorator =  ts.getDecorators(node)
                     ?.find((decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === 'Component')
                     ?.expression as CallExpression;
                 if (!componentDecorator) {

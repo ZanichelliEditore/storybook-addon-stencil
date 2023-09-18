@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 import type { Configuration } from 'webpack';
 
 export async function webpack(config: Configuration, options: Options): Promise<Configuration> {

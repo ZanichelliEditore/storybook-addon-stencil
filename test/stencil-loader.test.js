@@ -7,11 +7,16 @@ jest.setTimeout(10000);
 
 test('Custom element manifest generation', async () => {
     const stats = await compiler('fixture/component.tsx');
-    const output = stats.toJson({ source: true }).modules[2].modules[0].source.replace(/\r\n/g, '\n');
+    const statsJson = stats.toJson({ source: true });
+    expect(statsJson).toHaveProperty('modules');
+    expect(statsJson.modules[0]).toHaveProperty('modules');
+    expect(statsJson.modules[0].modules[0]).toHaveProperty('source');
+
+  const output = statsJson.modules[0].modules[0].source.replace(/\r\n/g, '\n');
 
     expect(output).toBe(`
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
-import { HTMLElement, defineCustomElement as __stencil_defineCustomElement } from "@stencil/core/internal/client";
+import { defineCustomElement as __stencil_defineCustomElement, HTMLElement } from "@stencil/core/internal/client";
 import { h } from "@stencil/core/internal/client";
 import myFirstComponentStyle from "./component.css?tag=my-first-component";
 const MyComponent = class extends HTMLElement {

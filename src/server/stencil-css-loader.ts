@@ -1,6 +1,5 @@
 import type { TranspileOptions } from '@stencil/core/compiler';
 import { transpile } from '@stencil/core/compiler';
-import { getOptions } from 'loader-utils';
 
 /**
  * Convert a Stencil component CSS to JS module.
@@ -11,7 +10,7 @@ async function stencilCssLoader(source: string) {
     return source;
   }
 
-  const options: Partial<TranspileOptions> = getOptions(this) || {};
+  const options: Partial<TranspileOptions> = this.getOptions() || {};
   const callback = this.async();
   const { code } = await transpile(source, {
     sourceMap: 'inline',

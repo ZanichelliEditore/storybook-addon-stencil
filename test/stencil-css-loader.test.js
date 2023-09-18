@@ -7,7 +7,12 @@ jest.setTimeout(10000);
 
 test('Should import CSS module using stencil', async () => {
     const stats = await compiler('fixture/component.tsx');
-    const output = stats.toJson({ source: true }).modules[2].modules[1].source.replace(/\r\n/g, '\n');
+    const statsJson = stats.toJson({ source: true });
+    expect(statsJson).toHaveProperty('modules');
+    expect(statsJson.modules[0]).toHaveProperty('modules');
+    expect(statsJson.modules[0].modules[3]).toHaveProperty('source');
+
+    const output = statsJson.modules[0].modules[3].source.replace(/\r\n/g, '\n');
 
     expect(output).toBe(`const componentCss = ":host{color:red}";
 export default componentCss;`);

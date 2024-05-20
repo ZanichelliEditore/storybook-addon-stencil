@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  background: #333;
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 28px;
+}
+
+em {
+  color: lime;
+}

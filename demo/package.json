@@ -1,0 +1,51 @@
+{
+  "name": "demo",
+  "version": "0.0.1",
+  "description": "Storybook addon Stencil demo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/demo/demo.esm.js",
+      "require": "./dist/demo/demo.cjs.js"
+    },
+    "./my-component": {
+      "import": "./dist/components/my-component.js",
+      "types": "./dist/components/my-component.d.js"
+    }
+  },
+  "main": "dist/index.cjs.js",
+  "unpkg": "dist/demo/demo.esm.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build",
+    "build-storybook": "storybook build",
+    "generate": "stencil generate",
+    "start": "stencil build --dev --watch --serve",
+    "storybook": "storybook dev -p 6006"
+  },
+  "devDependencies": {
+    "@stencil/core": "^4.7.0",
+    "@storybook/addon-docs": "^8.1.1",
+    "@storybook/addon-essentials": "^8.1.1",
+    "@storybook/addon-links": "^8.1.1",
+    "@storybook/blocks": "^8.1.1",
+    "@storybook/test": "^8.1.1",
+    "@storybook/web-components": "^8.1.1",
+    "@storybook/web-components-vite": "^8.1.1",
+    "@types/node": "^16.18.11",
+    "lit": "^3.1.2",
+    "storybook": "^8.1.1",
+    "storybook-addon-stencil": "link:.."
+  },
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js"
+}

@@ -4,3 +4,6 @@ storybook-static/
 build-storybook.log
 .DS_Store
 .env
+demo/pnpm-lock.yaml
+demo/yarn.lock
+demo/package-lock.json

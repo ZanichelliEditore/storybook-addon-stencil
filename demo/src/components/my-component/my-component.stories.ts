@@ -4,7 +4,6 @@ import { type MyComponent } from "./my-component";
 import { Meta, StoryObj } from "@storybook/web-components";
 
 const StoryMeta = {
-  component: "my-component",
   args: {
     first: "Stencil",
     middle: "demo",

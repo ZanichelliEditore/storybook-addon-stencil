@@ -30,7 +30,6 @@ export default function stencilCssPlugin(
                 sourceMap: "inline",
                 target: "es2017",
                 file: `${fileName}?${queryParamsString}`,
-
             });
 
             return code;

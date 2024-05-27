@@ -30,7 +30,7 @@
     "build-storybook": "storybook build",
     "generate": "stencil generate",
     "start": "stencil build --dev --watch --serve",
-    "storybook": "storybook dev -p 6006"
+    "storybook": "storybook dev -p 6006 --no-open"
   },
   "devDependencies": {
     "@stencil/core": "^4.7.0",
@@ -38,7 +38,6 @@
     "@storybook/addon-essentials": "^8.1.1",
     "@storybook/addon-links": "^8.1.1",
     "@storybook/blocks": "^8.1.1",
-    "@storybook/test": "^8.1.1",
     "@storybook/web-components": "^8.1.1",
     "@storybook/web-components-vite": "^8.1.1",
     "@types/node": "^16.18.11",

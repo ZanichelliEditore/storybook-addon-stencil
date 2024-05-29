@@ -8,7 +8,7 @@ const StoryMeta = {
     first: "Stencil",
     middle: "demo",
     last: "component",
-  }
+  },
 } satisfies Meta<MyComponent>;
 
 export default StoryMeta;

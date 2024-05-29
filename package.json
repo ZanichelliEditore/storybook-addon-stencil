@@ -51,11 +51,8 @@
     },
     "dependencies": {
         "@stencil/core": "^4",
-        "@storybook/builder-vite": "^8.1.1",
-        "@storybook/core-events": "^8.1.1",
-        "@storybook/docs-tools": "^8.1.1",
-        "@storybook/preview-api": "^8.1.1",
-        "@storybook/types": "^8.1.1",
+        "@storybook/builder-vite": "^8.1.4",
+        "@storybook/types": "^8.1.4",
         "custom-elements-manifest": "^1.0.0"
     },
     "devDependencies": {

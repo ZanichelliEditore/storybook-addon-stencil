@@ -28,6 +28,10 @@ export class MyComponent {
   }
 
   render() {
-    return <div>Hello, World! This is a <em>{this.getText()}</em></div>;
+    return (
+      <div>
+        Hello, World! This is a <em>{this.getText()}</em>
+      </div>
+    );
   }
 }

@@ -42,7 +42,9 @@ export default function stencilPlugin(options: TranspileOptions = {}): Plugin {
 
             return `${htmlTagNames
                 .filter((tagName: string) => components.has(tagName))
-                .map((tagName: string) => `import '${components.get(tagName)}';`)
+                .map(
+                    (tagName: string) => `import '${components.get(tagName)}';`,
+                )
                 .join("\n")}
 import { setCustomElementsManifest, getCustomElements } from '@storybook/web-components';
 ${

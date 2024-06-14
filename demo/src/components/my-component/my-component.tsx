@@ -9,17 +9,17 @@ import { format } from "../../utils/utils";
 })
 export class MyComponent {
   /**
-   * The first name
+   * The first part of the text
    */
   @Prop() first: string = "Stencil";
 
   /**
-   * The middle name
+   * The middle part of the text
    */
   @Prop() middle: string = "demo";
 
   /**
-   * The last name
+   * The last part of the text
    */
   @Prop() last: string = "component";
 

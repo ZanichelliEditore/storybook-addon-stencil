@@ -1,7 +1,4 @@
-import type {
-    BuilderOptions,
-    StorybookConfigVite,
-} from "@storybook/builder-vite";
+import type { BuilderOptions, StorybookConfigVite } from "@storybook/builder-vite";
 import type { StorybookConfig as StorybookConfigBase } from "@storybook/types";
 
 type FrameworkName = "storybook-addon-stencil";
@@ -12,28 +9,13 @@ export type FrameworkOptions = {
 };
 
 type StorybookConfigFramework = {
-    framework:
-        | FrameworkName
-        | {
-              name: FrameworkName;
-              options: FrameworkOptions;
-          };
-    core?: StorybookConfigBase["core"] & {
-        builder?:
-            | BuilderName
-            | {
-                  name: BuilderName;
-                  options: BuilderOptions;
-              };
-    };
+    framework: FrameworkName | { name: FrameworkName; options: FrameworkOptions };
+    core?: StorybookConfigBase["core"] & { builder?: BuilderName | { name: BuilderName; options: BuilderOptions } };
 };
 
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
-export type StorybookConfig = Omit<
-    StorybookConfigBase,
-    keyof StorybookConfigVite | keyof StorybookConfigFramework
-> &
+export type StorybookConfig = Omit<StorybookConfigBase, keyof StorybookConfigVite | keyof StorybookConfigFramework> &
     StorybookConfigVite &
     StorybookConfigFramework;

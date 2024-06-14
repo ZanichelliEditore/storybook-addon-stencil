@@ -14,10 +14,5 @@ const StoryMeta = {
 export default StoryMeta;
 
 export const Default = {
-  render: (args) =>
-    html`<my-component
-      first=${args.first}
-      middle=${args.middle}
-      last=${args.last}
-    />`,
+  render: (args) => html`<my-component first=${args.first} middle=${args.middle} last=${args.last} />`,
 } satisfies StoryObj<MyComponent>;

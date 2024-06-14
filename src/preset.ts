@@ -9,20 +9,13 @@ export const core: PresetProperty<"core", StorybookConfig> = {
     renderer: "@storybook/web-components",
 };
 
-export const viteFinal: StorybookConfig["viteFinal"] = async (
-    config,
-    options,
-) => {
-    const { options: { stencilOptions = {} } = {} } =
-        (await options.presets.apply("framework", {})) as {
-            name: string;
-            options?: any;
-        };
+export const viteFinal: StorybookConfig["viteFinal"] = async (config, options) => {
+    const { options: { stencilOptions = {} } = {} } = (await options.presets.apply("framework", {})) as {
+        name: string;
+        options?: any;
+    };
 
     return mergeConfig(config, {
-        plugins: [
-            stencilPlugin(stencilOptions),
-            stencilCssPlugin(stencilOptions),
-        ],
+        plugins: [stencilPlugin(stencilOptions), stencilCssPlugin(stencilOptions)],
     });
 };

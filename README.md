@@ -54,7 +54,7 @@ The addon will handle transpilation of the Stencil components, adding all needed
 
 > N.B. you must import all the components you want to use in your stories, except for the dependencies of the already imported components.
 
-You can se an [example of story](./demo/src/components/my-component/my-component.stories.ts) in the `demo` folder.
+You can see an example of story in the `demo` folder.
 
 ## Automated docs from Storybook
 

@@ -1,11 +1,27 @@
 import path from "path";
-import * as ts from "typescript";
+import {
+    CallExpression,
+    Node,
+    ObjectLiteralExpression,
+    ParsedCommandLine,
+    Program,
+    PropertyAssignment,
+    StringLiteral,
+    createProgram,
+    findConfigFile,
+    forEachChild,
+    getDecorators,
+    isClassDeclaration,
+    parseJsonConfigFileContent,
+    readConfigFile,
+    sys,
+} from "typescript";
 
 export class ProgramService {
     private memoBuild?: Promise<Map<string, string>>;
 
-    readonly config: ts.ParsedCommandLine;
-    readonly program: ts.Program;
+    readonly config: ParsedCommandLine;
+    readonly program: Program;
 
     constructor() {
         this.config = this.loadConfig();
@@ -17,14 +33,10 @@ export class ProgramService {
      * @returns {ParsedCommandLine}
      */
     loadConfig() {
-        const configFileName = ts.findConfigFile(
-            "./",
-            ts.sys.fileExists,
-            "tsconfig.json",
-        );
-        const { config } = ts.readConfigFile(configFileName, ts.sys.readFile);
+        const configFileName = findConfigFile("./", sys.fileExists, "tsconfig.json");
+        const { config } = readConfigFile(configFileName, sys.readFile);
 
-        return ts.parseJsonConfigFileContent(config, ts.sys, "./");
+        return parseJsonConfigFileContent(config, sys, "./");
     }
 
     /**
@@ -34,7 +46,7 @@ export class ProgramService {
     createProgram() {
         const { fileNames, options: compilerOptions } = this.config;
 
-        return ts.createProgram(fileNames, {
+        return createProgram(fileNames, {
             ...compilerOptions,
             noEmit: true,
         });
@@ -68,8 +80,8 @@ export class ProgramService {
     private async createComponentsMap() {
         const componentMap = new Map<string, string>();
         const currentDirectory = this.program.getCurrentDirectory();
-        const visit = (node: ts.Node) => {
-            if (ts.isClassDeclaration(node)) {
+        const visit = (node: Node) => {
+            if (isClassDeclaration(node)) {
                 let fileName = node.getSourceFile().fileName;
                 if (!path.isAbsolute(fileName)) {
                     fileName = path.join(currentDirectory, fileName);
@@ -81,36 +93,26 @@ export class ProgramService {
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
                  * Add custom-element-definition to exports
                  */
-                const componentDecorator = ts
-                    .getDecorators(node)
-                    ?.find(
-                        (decorator) =>
-                            (
-                                decorator?.expression as ts.CallExpression
-                            )?.expression?.getText() === "Component",
-                    )?.expression as ts.CallExpression;
+                const componentDecorator = getDecorators(node)?.find(
+                    (decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === "Component",
+                )?.expression as CallExpression;
                 if (!componentDecorator) {
                     return;
                 }
 
-                const tagProperty = (
-                    componentDecorator
-                        .arguments?.[0] as ts.ObjectLiteralExpression
-                )?.properties?.find(
-                    (prop: ts.PropertyAssignment) =>
-                        prop?.name?.getText() === "tag",
-                ) as ts.PropertyAssignment;
+                const tagProperty = (componentDecorator.arguments?.[0] as ObjectLiteralExpression)?.properties?.find(
+                    (prop: PropertyAssignment) => prop?.name?.getText() === "tag",
+                ) as PropertyAssignment;
                 if (!tagProperty) {
                     return;
                 }
 
-                const tagName = (tagProperty?.initializer as ts.StringLiteral)
-                    ?.text;
+                const tagName = (tagProperty?.initializer as StringLiteral)?.text;
                 if (tagName) {
                     componentMap.set(tagName, fileName);
                 }
             }
-            ts.forEachChild(node, visit);
+            forEachChild(node, visit);
         };
 
         this.program.emit();

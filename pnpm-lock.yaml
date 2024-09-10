@@ -11,9 +11,6 @@ dependencies:
   '@storybook/builder-vite':
     specifier: ^8.1.9
     version: 8.1.9(prettier@3.2.5)(typescript@5.4.5)(vite@5.2.11)
-  '@storybook/types':
-    specifier: ^8.1.9
-    version: 8.1.9
   custom-elements-manifest:
     specifier: ^1.0.0
     version: 1.0.0

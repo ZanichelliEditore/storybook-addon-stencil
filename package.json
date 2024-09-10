@@ -18,7 +18,7 @@
     "scripts": {
         "build": "tsc",
         "prettier.fix": "prettier --write .",
-        "demo": "cd demo && pnpm storybook"
+        "demo": "tsc && cd demo && pnpm storybook"
     },
     "exports": {
         ".": {

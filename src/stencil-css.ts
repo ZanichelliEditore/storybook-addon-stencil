@@ -50,13 +50,12 @@ export default function stencilCssPlugin(options: TranspileOptions = {}): Plugin
                     sourceMap: "inline",
                     target: "es2017",
                     file: `${fileName}?${queryParamsString}`,
-                    styleImportData: null,
                     style: null,
                 });
                 code = transpiled;
 
                 imports.forEach((input) => {
-                    code = code.replace(path.basename(input.path), path.basename(input.path) + "?inline");
+                    code = code.replace(input.path, input.path.replace(".css", ".css.js"));
                     const list = new Set(importMap.get(input.path));
                     list.add(id);
                     importMap.set(path.resolve(path.dirname(id), input.path), list);
@@ -66,7 +65,7 @@ export default function stencilCssPlugin(options: TranspileOptions = {}): Plugin
             return { code };
         },
         /**
-         * Handle hot updates for CSS files of the Stencil components.
+         * Handle hot updates for CSS files used the Stencil components.
          */
         handleHotUpdate({ file, server, timestamp }) {
             if (!file.includes(".css")) {

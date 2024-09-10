@@ -2,7 +2,6 @@
 
 <!-- Auto Generated Below -->
 
-
 ## Properties
 
 | Property | Attribute | Description                 | Type     | Default       |
@@ -11,7 +10,6 @@
 | `last`   | `last`    | The last part of the text   | `string` | `"component"` |
 | `middle` | `middle`  | The middle part of the text | `string` | `"demo"`      |
 
+---
 
-----------------------------------------------
-
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

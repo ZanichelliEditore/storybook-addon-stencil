@@ -1,3 +1,7 @@
+@import "first.css";
+@import "middle.css";
+@import "last.css";
+
 :host {
   display: block;
   background: #333;
@@ -5,8 +9,4 @@
   padding: 16px;
   border-radius: 4px;
   font-size: 28px;
-}
-
-em {
-  color: lime;
 }

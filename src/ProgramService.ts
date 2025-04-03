@@ -1,20 +1,12 @@
-import path from "path";
-import {
-    CallExpression,
-    Node,
-    ObjectLiteralExpression,
-    ParsedCommandLine,
-    Program,
-    PropertyAssignment,
-    StringLiteral,
-    createProgram,
-    findConfigFile,
-    forEachChild,
-    getDecorators,
-    isClassDeclaration,
-    parseJsonConfigFileContent,
-    readConfigFile,
-    sys,
+import path from "node:path";
+import ts, {
+    type CallExpression,
+    type Node,
+    type ObjectLiteralExpression,
+    type ParsedCommandLine,
+    type Program,
+    type PropertyAssignment,
+    type StringLiteral,
 } from "typescript";
 
 export class ProgramService {
@@ -33,10 +25,10 @@ export class ProgramService {
      * @returns {ParsedCommandLine}
      */
     loadConfig() {
-        const configFileName = findConfigFile("./", sys.fileExists, "tsconfig.json");
-        const { config } = readConfigFile(configFileName, sys.readFile);
+        const configFileName = ts.findConfigFile("./", ts.sys.fileExists, "tsconfig.json");
+        const { config } = ts.readConfigFile(configFileName, ts.sys.readFile);
 
-        return parseJsonConfigFileContent(config, sys, "./");
+        return ts.parseJsonConfigFileContent(config, ts.sys, "./");
     }
 
     /**
@@ -46,7 +38,7 @@ export class ProgramService {
     createProgram() {
         const { fileNames, options: compilerOptions } = this.config;
 
-        return createProgram(fileNames, {
+        return ts.createProgram(fileNames, {
             ...compilerOptions,
             noEmit: true,
         });
@@ -81,7 +73,7 @@ export class ProgramService {
         const componentMap = new Map<string, string>();
         const currentDirectory = this.program.getCurrentDirectory();
         const visit = (node: Node) => {
-            if (isClassDeclaration(node)) {
+            if (ts.isClassDeclaration(node)) {
                 let fileName = node.getSourceFile().fileName;
                 if (!path.isAbsolute(fileName)) {
                     fileName = path.join(currentDirectory, fileName);
@@ -93,9 +85,11 @@ export class ProgramService {
                  * Add tagName to classDoc, extracted from `@Component({tag: 'foo-bar'})` decorator
                  * Add custom-element-definition to exports
                  */
-                const componentDecorator = getDecorators(node)?.find(
-                    (decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === "Component",
-                )?.expression as CallExpression;
+                const componentDecorator = ts
+                    .getDecorators(node)
+                    ?.find(
+                        (decorator) => (decorator?.expression as CallExpression)?.expression?.getText() === "Component",
+                    )?.expression as CallExpression;
                 if (!componentDecorator) {
                     return;
                 }
@@ -112,7 +106,7 @@ export class ProgramService {
                     componentMap.set(tagName, fileName);
                 }
             }
-            forEachChild(node, visit);
+            ts.forEachChild(node, visit);
         };
 
         this.program.emit();

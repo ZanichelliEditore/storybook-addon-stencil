@@ -1,8 +1,8 @@
-import path from "path";
+import path from "node:path";
 import type { Plugin } from "vite";
 import { type TranspileOptions, transpile, createSystem } from "@stencil/core/compiler";
-import { ProgramService } from "./ProgramService";
-import { generateCustomElementDeclaration, generateCustomElementsManifest } from "./CustomElementsManifest";
+import { ProgramService } from "./ProgramService.js";
+import { generateCustomElementDeclaration, generateCustomElementsManifest } from "./CustomElementsManifest.js";
 
 const programService = new ProgramService();
 const sys = createSystem();

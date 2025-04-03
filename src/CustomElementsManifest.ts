@@ -6,7 +6,7 @@ import type {
     CssCustomProperty,
     Slot,
 } from "custom-elements-manifest/schema";
-import * as ts from "typescript";
+import ts from "typescript";
 import { ComponentCompilerMeta } from "@stencil/core/internal";
 
 type ComponentMeta = ComponentCompilerMeta & {

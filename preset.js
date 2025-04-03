@@ -1,2 +1,2 @@
 /* eslint-env node */
-export * from "./dist/preset";
+export * from "./dist/preset.js";

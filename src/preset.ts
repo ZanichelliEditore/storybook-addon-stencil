@@ -1,8 +1,8 @@
 import type { PresetProperty } from "@storybook/types";
 import { mergeConfig } from "vite";
-import stencilPlugin from "./stencil";
-import stencilCssPlugin from "./stencil-css";
-import type { StorybookConfig } from "./types";
+import stencilPlugin from "./stencil.js";
+import stencilCssPlugin from "./stencil-css.js";
+import type { StorybookConfig } from "./types.js";
 
 export const core: PresetProperty<"core", StorybookConfig> = {
     builder: "@storybook/builder-vite",
